@@ -43,6 +43,12 @@ const routes = [
         name: 'Order',
         component: () => import('@/views/order/index.vue'),
         meta: { title: '订单管理' }
+      },
+      {
+        path: 'report',
+        name: 'Report',
+        component: () => import('@/views/report/index.vue'),
+        meta: { title: '数据统计' }
       }
     ]
   }

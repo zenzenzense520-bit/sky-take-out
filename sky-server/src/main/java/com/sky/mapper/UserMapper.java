@@ -3,8 +3,10 @@ package com.sky.mapper;
 import com.sky.entity.User;
 import org.apache.ibatis.annotations.Mapper;
 
+import java.util.Map;
+
 /**
- * C 端用户 Mapper（SQL 待迭代补充）
+ * C 端用户 Mapper
  */
 @Mapper
 public interface UserMapper {
@@ -17,4 +19,7 @@ public interface UserMapper {
 
     /** 根据微信 openid 查询用户 */
     User getByOpenid(String openid);
+
+    /** 根据动态条件统计用户数量（数据报表用） */
+    Integer countByMap(Map map);
 }

@@ -9,6 +9,13 @@ export function getOrderPage(params) {
   })
 }
 
+export function getOrderStatistics() {
+  return request({
+    url: '/admin/order/statistics',
+    method: 'get'
+  })
+}
+
 export function getOrderDetail(id) {
   return request({
     url: `/admin/order/details/${id}`,

@@ -8,7 +8,7 @@ import org.apache.ibatis.annotations.Mapper;
 import java.util.List;
 
 /**
- * 地址簿 Mapper（SQL 待迭代补充）
+ * 地址簿 Mapper
  */
 @Mapper
 public interface AddressBookMapper {
@@ -20,6 +20,9 @@ public interface AddressBookMapper {
     /** 修改地址 */
     @AutoFill(OperationType.UPDATE)
     void update(AddressBook addressBook);
+
+    /** 重置某用户的全部地址为非默认 */
+    void updateIsDefaultByUserId(AddressBook addressBook);
 
     /** 根据 id 删除地址 */
     void deleteById(Long id);

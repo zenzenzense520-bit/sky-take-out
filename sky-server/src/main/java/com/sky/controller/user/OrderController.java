@@ -1,6 +1,7 @@
 package com.sky.controller.user;
 
 import com.sky.dto.OrderDTO;
+import com.sky.dto.OrderPaymentDTO;
 import com.sky.result.PageResult;
 import com.sky.result.Result;
 import com.sky.service.OrderService;
@@ -37,6 +38,13 @@ public class OrderController {
         return Result.success(orderService.submit(orderDTO));
     }
 
+    @PutMapping("/payment")
+    @ApiOperation("订单支付")
+    public Result<String> payment(@RequestBody OrderPaymentDTO orderPaymentDTO) {
+        orderService.payment(orderPaymentDTO);
+        return Result.success();
+    }
+
     @GetMapping("/orderDetail/{id}")
     @ApiOperation("查询订单详情")
     public Result<OrderVO> orderDetail(@PathVariable Long id) {
@@ -60,6 +68,13 @@ public class OrderController {
     @ApiOperation("催单")
     public Result<String> reminder(@PathVariable Long id) {
         orderService.reminder(id);
+        return Result.success();
+    }
+
+    @PostMapping("/repetition/{id}")
+    @ApiOperation("再来一单")
+    public Result<String> repetition(@PathVariable Long id) {
+        orderService.repetition(id);
         return Result.success();
     }
 }

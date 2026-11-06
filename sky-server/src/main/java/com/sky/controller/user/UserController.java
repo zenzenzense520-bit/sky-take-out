@@ -38,19 +38,18 @@ public class UserController {
     @PostMapping("/login")
     @ApiOperation("微信登录")
     public Result<UserLoginVO> login(@RequestBody Map<String, String> loginMap) {
-        // 前端传入小程序 wx.login 得到的 code
         String code = loginMap.get("code");
         User user = userService.wxLogin(code);
 
-        // TODO 迭代三：骨架阶段 user 可能为 null，补齐微信登录后即可签发令牌
+        // 生成 JWT 令牌
         Map<String, Object> claims = new HashMap<>();
-        claims.put(JwtClaimsConstant.USER_ID, user == null ? null : user.getId());
+        claims.put(JwtClaimsConstant.USER_ID, user.getId());
         String token = JwtUtil.createJWT(
                 jwtProperties.getUserSecretKey(), jwtProperties.getUserTtl(), claims);
 
         UserLoginVO userLoginVO = UserLoginVO.builder()
-                .id(user == null ? null : user.getId())
-                .openid(user == null ? null : user.getOpenid())
+                .id(user.getId())
+                .openid(user.getOpenid())
                 .token(token)
                 .build();
         return Result.success(userLoginVO);

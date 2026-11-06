@@ -1,11 +1,13 @@
 package com.sky.service;
 
 import com.sky.dto.OrderDTO;
+import com.sky.dto.OrderPaymentDTO;
 import com.sky.dto.OrdersCancelDTO;
 import com.sky.dto.OrdersConfirmDTO;
 import com.sky.dto.OrdersPageQueryDTO;
 import com.sky.dto.OrdersRejectionDTO;
 import com.sky.result.PageResult;
+import com.sky.vo.OrderStatisticsVO;
 import com.sky.vo.OrderVO;
 
 /**
@@ -16,6 +18,9 @@ public interface OrderService {
     /** 用户端：提交订单，返回订单视图对象 */
     OrderVO submit(OrderDTO orderDTO);
 
+    /** 用户端：订单支付成功（模拟支付与来单提醒） */
+    void payment(OrderPaymentDTO orderPaymentDTO);
+
     /** 用户端：历史订单分页查询 */
     PageResult pageQuery(int page, int pageSize, Integer status);
 
@@ -25,10 +30,16 @@ public interface OrderService {
     /** 用户端：催单 */
     void reminder(Long id);
 
+    /** 用户端：再来一单 */
+    void repetition(Long id);
+
     /** 管理端：条件分页查询订单 */
     PageResult conditionSearch(OrdersPageQueryDTO ordersPageQueryDTO);
 
-    /** 管理端：查询订单详情（含明细） */
+    /** 管理端：各个状态订单数量统计 */
+    OrderStatisticsVO statistics();
+
+    /** 查询订单详情（含明细） */
     OrderVO getOrderDetail(Long id);
 
     /** 管理端：接单 */

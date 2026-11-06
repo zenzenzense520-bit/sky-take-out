@@ -11,7 +11,7 @@
 | 数据库/缓存 | MySQL 8.0、Redis 7 |
 | 认证与文档 | JWT (jjwt 0.9.1)、Knife4j 3.0.3 |
 | 实时通信 | WebSocket (spring-boot-starter-websocket) |
-| 前端 | Vue 3.4、Vite 5、Element Plus 2.6、Pinia、Vue Router 4、Axios |
+| 前端 | Vue 3.4、Vite 5、Element Plus 2.6、Pinia、Vue Router 4、Axios、ECharts 5 |
 | 工具 | 阿里云 OSS、HttpClient、ZXing 二维码、Apache POI |
 | 构建 | JDK 11 / JDK 21、Maven 3.6+、Node 18+ |
 
@@ -20,8 +20,9 @@
 
 ## 二、系统模块
 
-- **管理端**：员工管理、分类管理、菜品管理、套餐管理、订单管理、文件上传
-- **用户端（接口已预留）**：微信登录、地址簿、购物车、下单、订单流转、催单
+- **管理端**：员工管理、分类管理、菜品管理、套餐管理、订单管理（接单/拒单/派送/取消/完成/详情）、数据统计报表（营业额/用户/订单/热销Top10/Apache POI Excel运营报表导出）、WebSocket 实时语音与弹窗提醒、文件上传（阿里云 OSS + 本地回退）
+- **用户端**：微信登录（支持真实微信接口与离线开发模拟 Mock）、地址簿全套管理（增删改查、默认地址设置）、购物车（添加/减购/清空）、订单提交、模拟支付、再来一单、催单
+- **定时任务**：Spring Task 定时处理超时 15 分钟未支付订单（自动取消）、每日凌晨定时处理派送中订单（自动完成）
 
 ## 三、目录结构
 
@@ -34,8 +35,8 @@ sky-take-out/
 ├── docs/                   # 架构与迁移文档
 ├── sky-common/             # 公共模块：常量/上下文/枚举/异常/JSON/工具
 ├── sky-pojo/               # 数据对象：entity / dto / vo
-├── sky-server/             # 核心服务：controller/service/mapper/配置/拦截器
-└── sky-admin-vue/          # Vue3 管理端
+├── sky-server/             # 核心服务：controller/service/mapper/配置/拦截器/定时任务/WebSocket
+└── sky-admin-vue/          # Vue3 管理端（Element Plus + ECharts）
 ```
 
 ## 四、快速开始
@@ -71,8 +72,8 @@ docker compose up -d
 
 - [x] 迭代一：多模块工程骨架、统一返回/异常、JWT 拦截器、AOP 自动填充、员工完整链路、前端骨架
 - [x] 迭代二：分类、菜品（含口味）、套餐（含关联菜品）、文件上传联调、Redis 缓存
-- [ ] 迭代三：用户端登录、地址簿、购物车、订单全流程、WebSocket 推送、定时任务
-- [ ] 迭代四：数据统计报表、Excel 导出、二维码支付、接口优化
+- [x] 迭代三：用户端登录、地址簿、购物车、订单全流程、WebSocket 推送、定时任务
+- [x] 迭代四：数据统计报表、Excel 导出、二维码支付、接口优化
 
 ## 六、文档索引
 

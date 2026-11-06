@@ -24,6 +24,10 @@ request.interceptors.request.use(
 // 响应拦截器：统一处理后端 Result 结构
 request.interceptors.response.use(
   (response) => {
+    // 若为文件流响应（例如导出 Excel），直接返回二进制 Blob 数据
+    if (response.config.responseType === 'blob' || response.data instanceof Blob) {
+      return response.data
+    }
     const res = response.data
     if (res.code === 1) {
       return res

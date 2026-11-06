@@ -2,11 +2,12 @@ package com.sky.mapper;
 
 import com.sky.entity.ShoppingCart;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 
 /**
- * 购物车 Mapper（SQL 待迭代补充）
+ * 购物车 Mapper
  */
 @Mapper
 public interface ShoppingCartMapper {
@@ -25,4 +26,7 @@ public interface ShoppingCartMapper {
 
     /** 清空当前用户购物车 */
     void deleteByUserId(Long userId);
+
+    /** 批量插入购物车（再来一单功能使用） */
+    void insertBatch(@Param("shoppingCartList") List<ShoppingCart> shoppingCartList);
 }
