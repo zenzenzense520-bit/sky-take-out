@@ -1,7 +1,6 @@
 # 苍穹外卖 sky-take-out
 
-基于 **Spring Boot + MyBatis + Vue3** 的经典外卖平台全栈项目，采用 Maven 多模块分层架构，
-在云端完成架构搭建，可整体迁移到个人电脑继续开发。
+基于 **Spring Boot + MyBatis + Vue3** 的经典外卖平台全栈项目，采用 Maven 多模块分层架构。
 
 ## 一、技术栈
 
