@@ -1,0 +1,18 @@
+package com.sky.dto;
+
+import lombok.Data;
+
+import java.io.Serializable;
+
+/**
+ * 菜品分页查询参数
+ */
+@Data
+public class DishPageQueryDTO implements Serializable {
+
+    private int page;
+    private int pageSize;
+    private String name;
+    private Long categoryId;
+    private Integer status;
+}

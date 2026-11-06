@@ -1,0 +1,34 @@
+# ===== 编译输出 =====
+target/
+*.class
+*.jar
+*.war
+
+# ===== IDE =====
+.idea/
+*.iml
+*.ipr
+*.iws
+.vscode/
+.settings/
+.project
+.classpath
+
+# ===== 日志 =====
+logs/
+*.log
+
+# ===== 前端 =====
+node_modules/
+dist/
+dist-ssr/
+.npm/
+.pnpm-store/
+*.local
+
+# ===== 系统 =====
+.DS_Store
+Thumbs.db
+
+# ===== 敏感配置（本地私有环境变量，不入库） =====
+application-local.yml

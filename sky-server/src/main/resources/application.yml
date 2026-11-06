@@ -1,0 +1,51 @@
+server:
+  port: 8080
+
+spring:
+  profiles:
+    active: dev
+  # springfox 3.0 与 Spring Boot 2.7 的路径匹配兼容
+  mvc:
+    pathmatch:
+      matching-strategy: ant_path_matcher
+
+mybatis:
+  # Mapper XML 位置
+  mapper-locations: classpath:mapper/*.xml
+  # 实体类别名包
+  type-aliases-package: com.sky.entity
+  configuration:
+    # 下划线转驼峰
+    map-underscore-to-camel-case: true
+    # 控制台打印 SQL（学习调试用，生产环境关闭）
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+pagehelper:
+  helper-dialect: mysql
+  reasonable: true
+  support-methods-arguments: true
+
+# ===== 苍穹外卖业务配置 =====
+sky:
+  jwt:
+    # 管理端
+    admin-secret-key: skyAdminSecretKey2026
+    admin-ttl: 7200000
+    admin-token-name: token
+    # 用户端
+    user-secret-key: skyUserSecretKey2026
+    user-ttl: 7200000
+    user-token-name: authentication
+  alioss:
+    endpoint: https://oss-cn-beijing.aliyuncs.com
+    access-key-id: 你的AccessKeyId
+    access-key-secret: 你的AccessKeySecret
+    bucket-name: 你的BucketName
+  wechat:
+    appid: 你的小程序AppId
+    secret: 你的小程序Secret
+    jscode2session-url: https://api.weixin.qq.com/sns/jscode2session
+
+logging:
+  level:
+    com.sky: info

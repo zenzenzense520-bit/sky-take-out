@@ -1,0 +1,25 @@
+package com.sky.mapper;
+
+import com.sky.entity.SetmealDish;
+import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
+
+/**
+ * 套餐-菜品关联 Mapper（SQL 待迭代补充）
+ */
+@Mapper
+public interface SetmealDishMapper {
+
+    /** 批量插入套餐菜品关联 */
+    void insertBatch(List<SetmealDish> setmealDishes);
+
+    /** 根据套餐 id 删除关联 */
+    void deleteBySetmealId(Long setmealId);
+
+    /** 根据套餐 id 查询关联菜品 */
+    List<SetmealDish> getBySetmealId(Long setmealId);
+
+    /** 统计某菜品被套餐引用的数量，删除菜品前校验 */
+    Integer countByDishId(Long dishId);
+}

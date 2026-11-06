@@ -1,0 +1,30 @@
+# 一键启动中间件：MySQL 8 + Redis 7
+# 使用：docker compose up -d
+# 停止：docker compose down
+# 数据持久化到当前目录 .data 下，迁移电脑时删除该目录即可重新初始化
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: sky-mysql
+    restart: unless-stopped
+    ports:
+      - "3306:3306"
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      TZ: Asia/Shanghai
+    command:
+      --character-set-server=utf8mb4
+      --collation-server=utf8mb4_general_ci
+    volumes:
+      - ./sql/sky_take_out.sql:/docker-entrypoint-initdb.d/sky_take_out.sql:ro
+      - ./.data/mysql:/var/lib/mysql
+
+  redis:
+    image: redis:7
+    container_name: sky-redis
+    restart: unless-stopped
+    ports:
+      - "6379:6379"
+    command: redis-server --appendonly yes
+    volumes:
+      - ./.data/redis:/data
