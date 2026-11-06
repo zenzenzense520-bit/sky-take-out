@@ -33,6 +33,14 @@ export function updateCategory(data) {
   })
 }
 
+export function enableOrDisableCategory(params) {
+  return request({
+    url: `/admin/category/status/${params.status}`,
+    method: 'post',
+    params: { id: params.id }
+  })
+}
+
 export function getCategoryList(params) {
   return request({
     url: '/admin/category/list',

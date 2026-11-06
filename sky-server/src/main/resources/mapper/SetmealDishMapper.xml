@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.sky.mapper.SetmealDishMapper">
+
+    <!-- 批量插入套餐菜品关联 -->
+    <insert id="insertBatch">
+        insert into setmeal_dish (setmeal_id, dish_id, name, price, copies, sort, create_time, update_time, create_user, update_user)
+        values
+        <foreach collection="setmealDishes" item="sd" separator=",">
+            (#{sd.setmealId}, #{sd.dishId}, #{sd.name}, #{sd.price}, #{sd.copies}, coalesce(#{sd.sort}, 0),
+             coalesce(#{sd.createTime}, now()),
+             coalesce(#{sd.updateTime}, now()),
+             coalesce(#{sd.createUser}, 1),
+             coalesce(#{sd.updateUser}, 1))
+        </foreach>
+    </insert>
+
+    <!-- 根据套餐 id 删除关联 -->
+    <delete id="deleteBySetmealId">
+        delete from setmeal_dish where setmeal_id = #{setmealId}
+    </delete>
+
+    <!-- 根据套餐 id 集合批量删除关联 -->
+    <delete id="deleteBySetmealIds">
+        delete from setmeal_dish where setmeal_id in
+        <foreach collection="setmealIds" item="id" open="(" separator="," close=")">
+            #{id}
+        </foreach>
+    </delete>
+
+    <!-- 根据套餐 id 查询关联菜品 -->
+    <select id="getBySetmealId" resultType="com.sky.entity.SetmealDish">
+        select * from setmeal_dish where setmeal_id = #{setmealId} order by sort asc
+    </select>
+
+    <!-- 统计某菜品被套餐引用的数量 -->
+    <select id="countByDishId" resultType="java.lang.Integer">
+        select count(id) from setmeal_dish where dish_id = #{dishId}
+    </select>
+
+</mapper>

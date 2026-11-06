@@ -13,7 +13,7 @@
 | 实时通信 | WebSocket (spring-boot-starter-websocket) |
 | 前端 | Vue 3.4、Vite 5、Element Plus 2.6、Pinia、Vue Router 4、Axios |
 | 工具 | 阿里云 OSS、HttpClient、ZXing 二维码、Apache POI |
-| 构建 | JDK 11、Maven 3.6+、Node 18+ |
+| 构建 | JDK 11 / JDK 21、Maven 3.6+、Node 18+ |
 
 > 说明：后端严格遵循经典苍穹技术栈；前端在原 Vue2 版本基础上升级为 Vue3 + Vite，
 > 规避 Node 高版本的 node-sass 兼容问题，业务模块与接口路径完全对齐。
@@ -70,7 +70,7 @@ docker compose up -d
 ## 五、当前进度与迭代计划
 
 - [x] 迭代一：多模块工程骨架、统一返回/异常、JWT 拦截器、AOP 自动填充、员工完整链路、前端骨架
-- [ ] 迭代二：分类、菜品（含口味）、套餐（含关联菜品）、文件上传联调、Redis 缓存
+- [x] 迭代二：分类、菜品（含口味）、套餐（含关联菜品）、文件上传联调、Redis 缓存
 - [ ] 迭代三：用户端登录、地址簿、购物车、订单全流程、WebSocket 推送、定时任务
 - [ ] 迭代四：数据统计报表、Excel 导出、二维码支付、接口优化
 

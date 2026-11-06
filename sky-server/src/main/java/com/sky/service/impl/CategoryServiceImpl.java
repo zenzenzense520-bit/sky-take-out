@@ -1,59 +1,99 @@
 package com.sky.service.impl;
 
+import com.github.pagehelper.Page;
+import com.github.pagehelper.PageHelper;
+import com.sky.constant.MessageConstant;
+import com.sky.constant.StatusConstant;
 import com.sky.dto.CategoryDTO;
 import com.sky.dto.CategoryPageQueryDTO;
 import com.sky.entity.Category;
+import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.CategoryMapper;
+import com.sky.mapper.DishMapper;
+import com.sky.mapper.SetmealMapper;
 import com.sky.result.PageResult;
 import com.sky.service.CategoryService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 
-import java.util.Collections;
 import java.util.List;
 
 /**
- * 分类业务实现（骨架，方法逻辑待迭代补充）
+ * 分类业务实现
  */
 @Service
 @Slf4j
 public class CategoryServiceImpl implements CategoryService {
 
     private final CategoryMapper categoryMapper;
+    private final DishMapper dishMapper;
+    private final SetmealMapper setmealMapper;
 
-    public CategoryServiceImpl(CategoryMapper categoryMapper) {
+    public CategoryServiceImpl(CategoryMapper categoryMapper,
+                               DishMapper dishMapper,
+                               SetmealMapper setmealMapper) {
         this.categoryMapper = categoryMapper;
+        this.dishMapper = dishMapper;
+        this.setmealMapper = setmealMapper;
     }
 
     @Override
     public void save(CategoryDTO categoryDTO) {
-        // TODO 迭代二：BeanUtils 拷贝为 Category 后调用 categoryMapper.insert
-        log.info("【骨架】新增分类: {}", categoryDTO);
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryDTO, category);
+        // 新增分类默认启用状态
+        category.setStatus(StatusConstant.ENABLE);
+        categoryMapper.insert(category);
     }
 
     @Override
     public PageResult pageQuery(CategoryPageQueryDTO categoryPageQueryDTO) {
-        // TODO 迭代二：PageHelper 分页后封装 PageResult
-        log.info("【骨架】分类分页查询: {}", categoryPageQueryDTO);
-        return new PageResult(0, Collections.emptyList());
+        PageHelper.startPage(categoryPageQueryDTO.getPage(), categoryPageQueryDTO.getPageSize());
+        Page<Category> page = (Page<Category>) categoryMapper.pageQuery(categoryPageQueryDTO);
+        return new PageResult(page.getTotal(), page.getResult());
     }
 
     @Override
     public void deleteById(Long id) {
-        // TODO 迭代二：删除前校验是否关联菜品/套餐，再调用 deleteById
-        log.info("【骨架】删除分类: id={}", id);
+        // 1. 校验当前分类是否关联菜品
+        Integer dishCount = dishMapper.countByCategoryId(id);
+        if (dishCount != null && dishCount > 0) {
+            throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_DISH);
+        }
+
+        // 2. 校验当前分类是否关联套餐
+        Integer setmealCount = setmealMapper.countByCategoryId(id);
+        if (setmealCount != null && setmealCount > 0) {
+            throw new DeletionNotAllowedException(MessageConstant.CATEGORY_BE_RELATED_BY_SETMEAL);
+        }
+
+        // 3. 执行删除
+        categoryMapper.deleteById(id);
     }
 
     @Override
     public void update(CategoryDTO categoryDTO) {
-        // TODO 迭代二：拷贝为 Category 后调用 update
-        log.info("【骨架】修改分类: {}", categoryDTO);
+        Category category = new Category();
+        BeanUtils.copyProperties(categoryDTO, category);
+        categoryMapper.update(category);
+    }
+
+    @Override
+    public void startOrStop(Integer status, Long id) {
+        Category category = Category.builder()
+                .id(id)
+                .status(status)
+                .build();
+        categoryMapper.update(category);
     }
 
     @Override
     public List<Category> list(Integer type) {
-        // TODO 迭代二：调用 categoryMapper.list 按类型查询
-        log.info("【骨架】查询分类列表: type={}", type);
-        return Collections.emptyList();
+        Category category = Category.builder()
+                .type(type)
+                .status(StatusConstant.ENABLE)
+                .build();
+        return categoryMapper.list(category);
     }
 }

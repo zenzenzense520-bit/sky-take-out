@@ -21,7 +21,7 @@ export function deleteSetmeal(ids) {
   return request({
     url: '/admin/setmeal',
     method: 'delete',
-    params: { ids }
+    params: { ids: Array.isArray(ids) ? ids.join(',') : ids }
   })
 }
 

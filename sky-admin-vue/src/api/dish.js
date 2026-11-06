@@ -21,7 +21,7 @@ export function deleteDish(ids) {
   return request({
     url: '/admin/dish',
     method: 'delete',
-    params: { ids }
+    params: { ids: Array.isArray(ids) ? ids.join(',') : ids }
   })
 }
 
@@ -45,5 +45,13 @@ export function enableOrDisableDish(params) {
     url: `/admin/dish/status/${params.status}`,
     method: 'post',
     params: { id: params.id }
+  })
+}
+
+export function getDishList(params) {
+  return request({
+    url: '/admin/dish/list',
+    method: 'get',
+    params
   })
 }
